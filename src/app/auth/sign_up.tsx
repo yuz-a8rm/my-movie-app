@@ -66,41 +66,49 @@ const SignUp = (): JSX.Element => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1.0,
-        backgroundColor: '#F0F4F8'
+        flex: 1,
+        backgroundColor: '#F0EEEB',
+        alignContent: 'center',
+        justifyContent: 'center',  // 縦方向に中央揃え
+
     },
     inner: {
-        paddingVertical: 24,
-        paddingHorizontal: 27
+        paddingVertical: 10,
+        paddingHorizontal: 70
     },
     title: {
+        color: '#C5B1AD',
         fontSize: 24,
         lineHeight: 32,
         fontWeight: 'bold',
-        marginBottom: 24
+        marginBottom: 15,
+        textAlign: 'center'
     },
     input: {
         borderWidth: 1,
         borderColor: '#dddddd',
         backgroundColor: '#ffffff',
-        height: 48,
-        padding: 8,
+        height: 50,
+        padding: 5,
+        textAlign: 'center',
         fontSize: 16,
-        marginBottom: 16
+        marginBottom: 10
     },
     footer: {
-        flexDirection: 'row'
+
     },
     footerText: {
         fontSize: 14,
         lineHeight: 24,
-        marginRight: 8,
-        color: '#000000'
+        color: '#C5B1AD',
+        textAlign: 'center'
+        
     },
     footerLink: {
         fontSize: 14,
         lineHeight: 24,
-        color: '#467FD3'
+        color: '#8AA680',
+        textAlign: 'center'
     }
 
 })
