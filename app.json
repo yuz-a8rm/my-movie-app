@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "test-app",
-    "slug": "test-app",
-    "scehme": "memo-app",
+    "name": "review-app",
+    "slug": "review-app",
+    "scheme": "movie-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
