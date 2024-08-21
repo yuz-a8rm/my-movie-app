@@ -9,7 +9,7 @@ import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { db, auth } from "../../config";
 import { type Memo } from "../../../types/memo";
 
-const hadlePress = ():void => {
+const handlePress = ():void => {
     router.push('/memo/create')
 }
 
@@ -30,10 +30,11 @@ const List = (): JSX.Element => {
                 const remoteMemos: Memo[] = []
                 snapshot.forEach((doc) => {
                     console.log('memo', doc.data())
-                    const { bodyText, updatedAt } = doc.data()
+                    const { title, updatedAt, content } = doc.data()
                     remoteMemos.push({
                         id: doc.id,
-                        bodyText,
+                        titleText: title,
+                        contentText: content,
                         updatedAt
                         })
                 })
@@ -48,8 +49,8 @@ const List = (): JSX.Element => {
                 data={memos}
                 renderItem={({ item }) => <MemoListItem memo = {item} />}
                 />
-        <CircleButton onPress={hadlePress}>
-            <Icon name='plus' size={40} color='#ffffff' />
+        <CircleButton onPress={handlePress}>
+            <Icon name="plus" size={40} color='#ffffff' />
         </CircleButton>
         </View>
     )
