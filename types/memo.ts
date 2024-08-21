@@ -2,7 +2,8 @@ import { type Timestamp } from 'firebase/firestore'
 
 interface Memo {
     id: string
-    bodyText: string
+    titleText: string
+    contentText: string
     updatedAt: Timestamp
 }
 

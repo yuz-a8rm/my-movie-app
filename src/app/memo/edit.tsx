@@ -3,12 +3,15 @@ import {
 import CircleButton from "../../components/CircleButton";
 import Icon from "../../components/icon";
 import { router } from "expo-router";
+import { useState } from "react";
 
 const handlePress = (): void => {
     router.back()
 }
 
 const Edit = () => {
+    const [titleText, setTitleText] = useState('')
+    const [contentText, setContentText] = useState('')
     return (
         <KeyboardAvoidingView behavior='height' style={styles.container}>
             <View style={styles.inputContainer}>

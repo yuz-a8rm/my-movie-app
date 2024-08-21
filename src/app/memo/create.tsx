@@ -7,16 +7,21 @@ import { router } from 'expo-router';
 import CircleButton from '../../components/CircleButton';
 import Icon from '../../components/icon';
 
-const [titleText, setTitleText] = useState('')
-const [contentText, setContentText] = useState('')
 
-const handlePress = (): void => {
+
+
+
+const Create: React.FC = () => {
+    const [titleText, setTitleText] = useState('')
+    const [contentText, setContentText] = useState('')
+
+    const handlePress = (): void => {
     if (auth.currentUser === null ) { return }
     const ref = collection(db, `users/${auth.currentUser.uid}/memos`)
     addDoc(ref, {
         title: titleText,
         content: contentText,
-        updateAt: Timestamp.fromDate(new Date())
+        updatedAt: Timestamp.fromDate(new Date())
     })
     .then((docRef) => {
         console.log('success', docRef.id)
@@ -27,8 +32,6 @@ const handlePress = (): void => {
     })
     
 } 
-
-const Create: React.FC = () => {
     return (
         <View style={styles.container}>
         <Card 
@@ -37,9 +40,13 @@ const Create: React.FC = () => {
             onTitleChange={setTitleText}
             onContentChange={setContentText}
         />
+        <CircleButton onPress = {handlePress}>
+            <Icon name='check' size={40} color='#ffffff'/>
+        </CircleButton>
+  
       </View>
-  );
-  };
+  )
+  }
   
   const styles = StyleSheet.create({
     container: {
@@ -62,10 +69,7 @@ const Create: React.FC = () => {
       },
   });
 
-            <CircleButton onPress = {handlePress}>
-                <Icon name='check' size={40} color='#ffffff'/>
-            </CircleButton>
-  
+
   export default Create;
   
 
