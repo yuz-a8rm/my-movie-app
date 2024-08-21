@@ -16,7 +16,7 @@ import {
         container: {
             height: 296,
             width: 399,
-            backgroundColor: '#000000',
+            backgroundColor: '#FFFFFF',
             // alignContent: 'center',
             // justifyContent: 'center',  // 縦方向に中央揃え
         },
