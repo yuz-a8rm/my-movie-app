@@ -5,6 +5,7 @@ interface Memo {
     titleText: string
     contentText: string
     updatedAt: Timestamp
+    point: string
 }
 
 export type { Memo }

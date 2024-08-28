@@ -31,7 +31,7 @@ const handlePress = ( id: string):void => {
 
 const MemoListItem = (props: Props): JSX.Element | null => {
     const { memo } = props
-    const { contentText, updatedAt, titleText } = memo
+    const { contentText, updatedAt, titleText, point } = memo
     if ( contentText === null || updatedAt === null) { return null }
     const  dateString = updatedAt.toDate().toLocaleString('ja-JP')
 
@@ -41,9 +41,11 @@ const MemoListItem = (props: Props): JSX.Element | null => {
          asChild>
             <TouchableOpacity style={styles.memoListItem}>
                 <View>
+                    <Text style={styles.memoListItemPoint}>{point}</Text>
                     <Text numberOfLines={1} style={styles.memoListItemTitle}>{titleText}</Text>
                     <Text numberOfLines={1} style={styles.memoListItemContent}>{contentText}</Text>
                     <Text style={styles.memoListItemDate}>{dateString}</Text>
+
                 </View>
                 <TouchableOpacity onPress={() => { handlePress(memo.id) }}>
                     <Icon name='delete' size={32} color='#b0b0b0' />
@@ -90,6 +92,11 @@ const styles = StyleSheet.create({
         lineHeight: 16,
         color: '#C5B1AD'
 
+    },
+    memoListItemPoint :{
+    justifyContent: 'flex-end',
+    flexDirection: 'row',
+    color: '#C5B1AD'
     }
 })
 

@@ -8,6 +8,7 @@ import LogOutButton from "../../components/LogOutButton";
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { db, auth } from "../../config";
 import { type Memo } from "../../../types/memo";
+import Point from "../../components/Point";
 
 const handlePress = ():void => {
     router.push('/memo/create')
@@ -30,12 +31,13 @@ const List = (): JSX.Element => {
                 const remoteMemos: Memo[] = []
                 snapshot.forEach((doc) => {
                     console.log('memo', doc.data())
-                    const { title, updatedAt, content } = doc.data()
+                    const { title, updatedAt, content, point } = doc.data()
                     remoteMemos.push({
                         id: doc.id,
                         titleText: title,
                         contentText: content,
-                        updatedAt
+                        updatedAt,
+                        point
                         })
                 })
                 setMemos(remoteMemos)
