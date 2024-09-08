@@ -16,8 +16,8 @@ const Create: React.FC = () => {
     if (auth.currentUser === null) { return }
     const ref = collection(db, `users/${auth.currentUser.uid}/memos`);
     addDoc(ref, {
-      title: titleText,
-      content: contentText,
+      titleText,
+      contentText,
       updatedAt: Timestamp.fromDate(new Date()),
       point: selectedPoint,  // Pointの値を保存
     })

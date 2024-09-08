@@ -1,63 +1,69 @@
 import { View, Text, StyleSheet, ScrollView } from "react-native";
-
 import CircleButton from "../../components/CircleButton";
 import Icon from "../../components/icon";
-
 import { router, useLocalSearchParams } from "expo-router";
-import { onSnapshot, doc } from "firebase/firestore";
+import { onSnapshot, doc, updateDoc } from "firebase/firestore";
 import { auth, db } from "../../config";
 import { useEffect, useState } from "react";
 import { type Memo } from "../../../types/memo";
 import Card from "../../components/Card";
 
-const handlePress = ():void => {
-    router.push('/memo/edit')
-}
-
-interface CardProps {
-  title: string;
-  content: string;
-}
-
 const Detail = (): JSX.Element => {
-    const id = String(useLocalSearchParams().id)
-    console.log(id)
-    const [memo, setMemo] = useState<Memo | null>(null)
+    const id = String(useLocalSearchParams().id);
+    const [memo, setMemo] = useState<Memo | null>(null);
+    const [title, setTitle] = useState<string>('');
+    const [content, setContent] = useState<string>('');
+    const [point, setPoint] = useState<string | null>(null);
+
     useEffect(() => {
         if (auth.currentUser === null) { return }
-        const ref = doc(db, `users/${auth.currentUser.uid}/memos` ,id)
+        const ref = doc(db, `users/${auth.currentUser.uid}/memos`, id);
         const unsubscribe = onSnapshot(ref, (memoDoc) => {
-            const { titleText , point, contentText, updatedAt } = memoDoc.data() as Memo
+            const data = memoDoc.data();
             setMemo({
                 id: memoDoc.id,
-                titleText,
-                contentText,
-                updatedAt,
-                point
-            })
-        })
-        return unsubscribe
-    }, [])
+                titleText: data?.titleText ?? '',
+                contentText: data?.contentText ?? '',
+                updatedAt: data?.updatedAt ?? null,
+                point: data?.point ?? '',
+            });
+            setTitle(data?.titleText ?? '');
+            setContent(data?.contentText ?? '');
+            setPoint(data?.point ?? '');
+        });
+        return unsubscribe;
+    }, []);
+
+    const handleSave = async () => {
+        if (auth.currentUser === null || memo === null) { return }
+        const ref = doc(db, `users/${auth.currentUser.uid}/memos`, id);
+        await updateDoc(ref, {
+            titleText: title,
+            contentText: content,
+            point: point,
+            updatedAt: new Date()
+        });
+        router.push('/memo/list');
+    };
+
     return (
         <View style={styles.container}>
             {memo && (
-            <Card 
-            title={memo.titleText}
-            content={memo.contentText}
-            point={memo.point}
-            onTitleChange={() => {}}
-            onContentChange={() => {}}
-            onPointChange={() => {}} 
+                <Card
+                    title={title}
+                    content={content}
+                    point={point}
+                    onTitleChange={setTitle}
+                    onContentChange={setContent}
+                    onPointChange={setPoint}
                 />
             )}
-            <ScrollView style={styles.memoBody}>
-
-            </ScrollView>
-            <CircleButton onPress={handlePress} style={{top: 400, bottom: 'auto'}}>
+            <ScrollView style={styles.memoBody}></ScrollView>
+            <CircleButton onPress={handleSave} style={{ top: 400, bottom: 'auto' }}>
                 <Icon name='pencil' size={40} color='#ffffff' />
             </CircleButton>
         </View>
-    )
+    );
 }
 
 const styles = StyleSheet.create({
@@ -66,11 +72,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#ffffff',
         alignItems: 'center'
     },
-    memoBody: {
+    memoBody: {},
+});
 
-    },
-
-    
-})
-
-export default Detail
+export default Detail;

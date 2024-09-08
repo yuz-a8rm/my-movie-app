@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, TextInput, StyleSheet } from 'react-native';
-import Point from './Point';
 import Category from './Category';
+import Point from './Point';
 
 interface CardProps {
   title: string;
@@ -12,7 +12,14 @@ interface CardProps {
   onPointChange: (value: string | null) => void;
 }
 
-const Card: React.FC<CardProps> = ({ title, content, point, onTitleChange, onContentChange, onPointChange }) => {
+const Card: React.FC<CardProps> = ({
+  title,
+  content,
+  point,
+  onTitleChange,
+  onContentChange,
+  onPointChange,
+}) => {
   return (
     <View style={styles.card}>
       <TextInput
@@ -21,9 +28,8 @@ const Card: React.FC<CardProps> = ({ title, content, point, onTitleChange, onCon
         value={title}
         onChangeText={onTitleChange}
       />
-      <Point selectedValue={point} onValueChange={onPointChange} />
       <Category />
-      
+      <Point selectedValue={point} onValueChange={onPointChange} />
       <TextInput
         style={styles.contentInput}
         placeholder="内容を入力"
@@ -31,7 +37,6 @@ const Card: React.FC<CardProps> = ({ title, content, point, onTitleChange, onCon
         onChangeText={onContentChange}
         multiline
       />
-
     </View>
   );
 };
