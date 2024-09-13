@@ -1,17 +1,8 @@
 import { StyleSheet, TouchableOpacity, Text, Alert } from "react-native";
-import { signOut } from "firebase/auth";
-
-import { auth } from "../config";
 import { router } from "expo-router";
 
 const handlePress = (): void => {
-    signOut(auth)
-    .then(() => {
-        router.replace('/components/Profile')
-    })
-    .catch(() => {
-        Alert.alert('プロフィール作成に失敗しました')
-    })
+        router.replace('./Profile')
 }
 
 const CreateProfileCardButton = (): JSX.Element => {

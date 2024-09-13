@@ -1,7 +1,13 @@
 import React from 'react';
 import { View, TextInput, StyleSheet } from 'react-native';
-import Category from './Category';
-import Point from './Point';
+import Category from '../components/Category';
+import Point from '../components/Point';
+import CircleButton from '../components/CircleButton';
+import Icon from '../components/icon';
+import { collection, addDoc, Timestamp } from 'firebase/firestore';
+import { auth, db } from '../config';
+import { useState } from 'react';
+import { router } from 'expo-router';
 
 interface CardProps {
   title: string;
@@ -12,7 +18,8 @@ interface CardProps {
   onPointChange: (value: string | null) => void;
 }
 
-const Card: React.FC<CardProps> = ({
+
+const Profile: React.FC<CardProps> = ({
   title,
   content,
   point,
@@ -20,6 +27,29 @@ const Card: React.FC<CardProps> = ({
   onContentChange,
   onPointChange,
 }) => {
+  
+  const [titleText, setTitleText] = useState('');
+  const [contentText, setContentText] = useState('');
+  const [selectedPoint, setSelectedPoint] = useState<string | null>(null);
+
+  const handlePress = (): void => {
+    if (auth.currentUser === null) { return }
+    const ref = collection(db, `users/${auth.currentUser.uid}/memos`);
+    addDoc(ref, {
+      titleText,
+      contentText,
+      updatedAt: Timestamp.fromDate(new Date()),
+      point: selectedPoint,  // Pointの値を保存
+    })
+    .then((docRef) => {
+      console.log('success', docRef.id);
+      router.back();
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  };
+
   return (
     <View style={styles.card}>
       <TextInput
@@ -37,7 +67,13 @@ const Card: React.FC<CardProps> = ({
         onChangeText={onContentChange}
         multiline
       />
+      
+      <CircleButton onPress={handlePress}>
+        <Icon name='check' size={40} color='#ffffff'/>
+      </CircleButton>
     </View>
+
+
   );
 };
 
@@ -74,4 +110,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Card;
+export default Profile;
