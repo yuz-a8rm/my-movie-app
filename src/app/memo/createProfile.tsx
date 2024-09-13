@@ -6,24 +6,26 @@ import { addDoc, Timestamp, collection } from 'firebase/firestore';
 import { router } from 'expo-router';
 import CircleButton from '../../components/CircleButton';
 import Icon from '../../components/icon';
+import Profile from '../Profile';
 
 const Create: React.FC = () => {
-  const [titleText, setTitleText] = useState('');
-  const [contentText, setContentText] = useState('');
-  const [selectedPoint, setSelectedPoint] = useState<string | null>(null);
+  const [nameText, setNameText] = useState('');
+  const [commentText, setCommentText] = useState('');
+  const [actorText, setActorText] = useState('')
+  const [movieText, setMovieText] = useState('')
 
   const handlePress = (): void => {
     if (auth.currentUser === null) { return }
-    const ref = collection(db, `users/${auth.currentUser.uid}/memos`);
+    const ref = collection(db, `users/${auth.currentUser.uid}/profiles`);
     addDoc(ref, {
-      titleText,
-      contentText,
-      updatedAt: Timestamp.fromDate(new Date()),
-      point: selectedPoint,  // Pointの値を保存
+        name: nameText,
+        comment: commentText,
+        actor: actorText,
+        movie: movieText
     })
     .then((docRef) => {
       console.log('success', docRef.id);
-      router.back();
+      router.push('/list');
     })
     .catch((error) => {
       console.log(error);
@@ -32,13 +34,15 @@ const Create: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <Card 
-        title={titleText}
-        content={contentText}
-        point={selectedPoint}  // Pointの値を渡す
-        onTitleChange={setTitleText}
-        onContentChange={setContentText}
-        onPointChange={setSelectedPoint}  // Pointの変更を管理
+      <Profile
+        name={nameText}
+        comment={commentText}
+        actor={actorText}
+        movie={movieText}
+        onNameChange={setNameText}
+        onCommentChange={setCommentText}
+        onActorChange={setActorText}
+        onMovieChange={setMovieText}
       />
       <CircleButton onPress={handlePress}>
         <Icon name='check' size={40} color='#ffffff'/>
@@ -57,3 +61,4 @@ const styles = StyleSheet.create({
 });
 
 export default Create;
+

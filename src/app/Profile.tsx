@@ -1,42 +1,57 @@
 import React from 'react';
 import { View, TextInput, StyleSheet } from 'react-native';
-import Category from '../components/Category';
-import Point from '../components/Point';
 
 interface CardProps {
-  title: string;
-  content: string;
-  point: string | null;
-  onTitleChange: (text: string) => void;
-  onContentChange: (text: string) => void;
-  onPointChange: (value: string | null) => void;
+  name: string;
+  comment: string;
+  actor: string;
+  movie: string;
+  onNameChange: (name: string) => void;
+  onCommentChange: (text: string) => void;
+  onActorChange: (actor: string) => void;
+  onMovieChange: (movie: string) => void
 }
 
-const Card: React.FC<CardProps> = ({
-  title,
-  content,
-  point,
-  onTitleChange,
-  onContentChange,
-  onPointChange,
+const Profile: React.FC<CardProps> = ({
+  name,
+  comment,
+  actor,
+  movie,
+  onNameChange,
+  onCommentChange,
+  onActorChange,
+  onMovieChange
 }) => {
   return (
     <View style={styles.card}>
       <TextInput
         style={styles.titleInput}
-        placeholder="タイトルを入力"
-        value={title}
-        onChangeText={onTitleChange}
+        placeholder="ユーザー名を入力"
+        value={name}
+        onChangeText={onNameChange}
       />
-      <Category />
-      <Point selectedValue={point} onValueChange={onPointChange} />
-      <TextInput
+
+    <TextInput
+      style={styles.titleInput}
+      placeholder="好きな俳優を入力"
+      value={actor}
+      onChangeText={onActorChange}
+    />
+
+    <TextInput
+      style={styles.titleInput}
+      placeholder="好きな映画を入力"
+      value={movie}
+      onChangeText={onMovieChange}
+    />
+  
+    <TextInput
         style={styles.contentInput}
-        placeholder="内容を入力"
-        value={content}
-        onChangeText={onContentChange}
+        placeholder="コメントを入力"
+        value={comment}
+        onChangeText={onCommentChange}
         multiline
-      />
+    />
     </View>
   );
 };
@@ -66,7 +81,7 @@ const styles = StyleSheet.create({
     padding: 10,
     fontSize: 16,
     borderWidth: 1,
-    height: 200,
+    height: 100,
     textAlignVertical: 'top',
     borderBottomWidth: 1,
     borderColor: '#C5B1AD',
@@ -74,4 +89,6 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Card;
+
+
+export default Profile
