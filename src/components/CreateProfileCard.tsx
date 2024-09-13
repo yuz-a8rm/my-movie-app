@@ -2,7 +2,7 @@ import { StyleSheet, TouchableOpacity, Text, Alert } from "react-native";
 import { router } from "expo-router";
 
 const handlePress = (): void => {
-        router.replace('./Profile')
+        router.replace('../../createProfile')
 }
 
 const CreateProfileCardButton = (): JSX.Element => {
