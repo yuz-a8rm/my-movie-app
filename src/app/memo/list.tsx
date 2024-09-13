@@ -3,13 +3,22 @@ import { View, StyleSheet, FlatList } from 'react-native';
 import MemoListItem from '../../components/MemoListItem';
 import CircleButton from '../../components/CircleButton';
 import Icon from '../../components/icon';
-import { router } from 'expo-router';
+import { router, useNavigation } from 'expo-router';
 import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 import { db, auth } from '../../config';
 import { Memo } from '../../../types/memo';
+import CreateProfileCardButton from '../../components/CreateProfileCard';
 
 const List: React.FC = () => {
     const [memos, setMemos] = useState<Memo[]>([]);
+    const navigation = useNavigation()
+
+    useEffect(() => {
+        navigation.setOptions({
+            headerRight: () => { return <CreateProfileCardButton /> }
+        })
+        }, [])
+    
 
     useEffect(() => {
         if (auth.currentUser === null) { return }

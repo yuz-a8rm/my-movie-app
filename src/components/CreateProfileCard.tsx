@@ -7,17 +7,17 @@ import { router } from "expo-router";
 const handlePress = (): void => {
     signOut(auth)
     .then(() => {
-        router.replace('/auth/log_in')
+        router.replace('/components/Profile')
     })
     .catch(() => {
-        Alert.alert('ログアウトに失敗しました')
+        Alert.alert('プロフィール作成に失敗しました')
     })
 }
 
-const LogOutButton = (): JSX.Element => {
+const CreateProfileCardButton = (): JSX.Element => {
     return (
         <TouchableOpacity onPress={handlePress}>
-            <Text style={styles.text}>ログアウト</Text>
+            <Text style={styles.text}>プロフィール</Text>
         </TouchableOpacity>
     )
 }
@@ -30,4 +30,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default LogOutButton
+export default CreateProfileCardButton
