@@ -1,41 +1,89 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
-import Card from '../../components/Card';
 import { auth, db } from '../../config';
-import { addDoc, Timestamp, collection } from 'firebase/firestore';
-import { router } from 'expo-router';
+import { addDoc, collection, doc, getDocs, onSnapshot, updateDoc } from 'firebase/firestore';
+import { router, useNavigation } from 'expo-router';
 import CircleButton from '../../components/CircleButton';
 import Icon from '../../components/icon';
 import Profile from '../Profile';
+import { Profiletype } from '../../../types/profileType';
+import HomeButton from '../../components/HomeButton';
 
-const Create: React.FC = () => {
-  const [nameText, setNameText] = useState('');
-  const [commentText, setCommentText] = useState('');
-  const [actorText, setActorText] = useState('')
-  const [movieText, setMovieText] = useState('')
 
-  const handlePress = (): void => {
-    if (auth.currentUser === null) { return }
+const CreateProfile: React.FC = () => {
+  const [profile, setProfile] = useState<Profiletype | null>(null);
+  const [nameText, setNameText] = useState<string>('');
+  const [commentText, setCommentText] = useState<string>('');
+  const [actorText, setActorText] = useState<string>('');
+  const [movieText, setMovieText] = useState<string>('');
+  const [userId, setUserId] = useState<string>('')
+
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    if (auth.currentUser === null) { return; }
+
+   setUserId(auth.currentUser.uid)
+
     const ref = collection(db, `users/${auth.currentUser.uid}/profiles`);
-    addDoc(ref, {
-        name: nameText,
-        comment: commentText,
-        actor: actorText,
-        movie: movieText
-    })
-    .then((docRef) => {
-      console.log('success', docRef.id);
-      router.push('/list');
-    })
-    .catch((error) => {
-      console.log(error);
+
+    const unsubscribe = onSnapshot(ref, (snapshot) => {
+      const profilesData = snapshot.docs.map((doc) => doc.data() as Profiletype);
+
+      if (profilesData.length > 0) {
+        const profile = profilesData[0];
+        setProfile(profile);
+        setNameText(profile.name);
+        setCommentText(profile.comment);
+        setActorText(profile.actor);
+        setMovieText(profile.movie);
+      }
     });
+
+    return unsubscribe;
+  }, []);
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => <HomeButton />
+    });
+  }, []);
+
+  const handlePress = async (): Promise<void> => {
+    if (auth.currentUser === null) { return; }
+
+    const ref = collection(db, `users/${auth.currentUser.uid}/profiles`);
+
+    try {
+      const profilesQuery = await getDocs(ref);
+      if (profilesQuery.empty) {
+        await addDoc(ref, {
+          name: nameText,
+          comment: commentText,
+          actor: actorText,
+          movie: movieText
+        });
+      } else {
+        const docRef = profilesQuery.docs[0].ref;
+        await updateDoc(docRef, {
+          name: nameText,
+          comment: commentText,
+          actor: actorText,
+          movie: movieText
+        });
+      }
+      console.log('success');
+      router.push('/memo/list');
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
     <View style={styles.container}>
       <Profile
         name={nameText}
+        userId={userId}
         comment={commentText}
         actor={actorText}
         movie={movieText}
@@ -45,7 +93,7 @@ const Create: React.FC = () => {
         onMovieChange={setMovieText}
       />
       <CircleButton onPress={handlePress}>
-        <Icon name='check' size={40} color='#ffffff'/>
+        <Icon name="check" size={40} color="#ffffff" />
       </CircleButton>
     </View>
   );
@@ -60,5 +108,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Create;
-
+export default CreateProfile;

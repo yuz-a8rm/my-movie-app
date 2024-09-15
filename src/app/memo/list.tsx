@@ -8,6 +8,9 @@ import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 import { db, auth } from '../../config';
 import { Memo } from '../../../types/memo';
 import CreateProfileCardButton from '../../components/CreateProfileCard';
+import LogOutButton from '../../components/LogoutButton';
+import Materialicon from "react-native-vector-icons/MaterialIcons";
+import Entypo from "react-native-vector-icons/Entypo";
 
 const List: React.FC = () => {
     const [memos, setMemos] = useState<Memo[]>([]);
@@ -16,8 +19,13 @@ const List: React.FC = () => {
     useEffect(() => {
         navigation.setOptions({
             headerRight: () => { return <CreateProfileCardButton /> }
+        }),
+        navigation.setOptions({
+            headerLeft: () => { return <LogOutButton /> }
         })
-        }, [])
+        }, []),
+
+
     
 
     useEffect(() => {
@@ -56,7 +64,7 @@ const List: React.FC = () => {
                 keyExtractor={(item) => item.id}
             />
             <CircleButton onPress={handlePress}>
-                <Icon name="plus" size={40} color='#ffffff' />
+                <Entypo name="plus"  size={40} color='#ffffff' />
             </CircleButton>
         </View>
     );

@@ -7,10 +7,10 @@ const Layout = (): JSX.Element => {
         },
         headerTintColor: '#ffffff',
         headerTitle: 'Movie App',
-        headerBackTitle: 'Back',
+        headerBackTitle: 'Home',
         headerTitleStyle: {
-            fontSize: 22,
-            fontWeight: 'bold'
+        fontSize: 22,
+        fontWeight: 'bold'
         }
     }} />
 }
