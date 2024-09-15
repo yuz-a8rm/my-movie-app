@@ -31,6 +31,7 @@ const handlePress = ( id: string):void => {
 
 const MemoListItem = (props: Props): JSX.Element | null => {
     const { memo } = props
+    
     const { contentText, updatedAt, titleText, point } = memo
     if ( contentText === null || updatedAt === null) { return null }
     const  dateString = updatedAt.toDate().toLocaleString('ja-JP')
@@ -66,7 +67,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.8,
         shadowRadius: 2,
         elevation: 5,
-        width: 350,
+        width: 400,
         height: 120,
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -94,9 +95,9 @@ const styles = StyleSheet.create({
 
     },
     memoListItemPoint :{
-    justifyContent: 'flex-end',
-    flexDirection: 'row',
-    color: '#C5B1AD'
+        justifyContent: 'flex-end',
+        flexDirection: 'row',
+        color: '#C5B1AD'
     }
 })
 
