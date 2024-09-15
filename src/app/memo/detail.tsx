@@ -48,18 +48,19 @@ const Detail = (): JSX.Element => {
 
     return (
         <View style={styles.container}>
-            {memo && (
-                <Card
-                    title={title}
-                    content={content}
-                    point={point}
-                    onTitleChange={setTitle}
-                    onContentChange={setContent}
-                    onPointChange={setPoint}
-                />
-            )}
-            <ScrollView style={styles.memoBody}></ScrollView>
-            <CircleButton onPress={handleSave} style={{ top: 400, bottom: 'auto' }}>
+            <ScrollView contentContainerStyle={styles.scrollContainer}>
+                {memo && (
+                    <Card
+                        title={title}
+                        content={content}
+                        point={point}
+                        onTitleChange={setTitle}
+                        onContentChange={setContent}
+                        onPointChange={setPoint}
+                    />
+                )}
+            </ScrollView>
+            <CircleButton onPress={handleSave} style={styles.circleButton}>
                 <Icon name='pencil' size={40} color='#ffffff' />
             </CircleButton>
         </View>
@@ -69,10 +70,22 @@ const Detail = (): JSX.Element => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#ffffff',
-        alignItems: 'center'
+        backgroundColor: '#F0EEEB',
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingHorizontal: 16,
+        paddingBottom: 80
     },
-    memoBody: {},
+    scrollContainer: {
+        flexGrow: 1,
+        justifyContent: 'center',
+        width: '100%',
+    },
+    circleButton: {
+        position: 'absolute',
+        bottom: 30,
+        right: 30,
+    },
 });
 
 export default Detail;

@@ -78,6 +78,7 @@ const Profile: React.FC<CardProps> = ({
 const styles = StyleSheet.create({
   container: {
     marginBottom: 16,
+    backgroundColor: '#F0EEEB',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
